@@ -5,6 +5,13 @@ import { profile } from "@/data/profile";
 
 type Status = "idle" | "sending" | "success" | "error";
 
+const CONTACT_EMAIL =
+  process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? profile.email;
+
+const FORM_ENDPOINT =
+  process.env.NEXT_PUBLIC_FORM_ENDPOINT ??
+  `https://formsubmit.co/ajax/${CONTACT_EMAIL}`;
+
 export default function ContactForm() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -25,17 +32,32 @@ export default function ContactForm() {
 
     setStatus("sending");
 
+    const body = new URLSearchParams({
+      _subject: `[Portfolio Contact] ${subject || "New message"}`,
+      _captcha: "false",
+      _replyto: email.trim(),
+      name: name.trim(),
+      email: email.trim(),
+      subject: subject.trim(),
+      message: message.trim(),
+    });
+
     try {
-      const res = await fetch("/api/contact", {
+      const res = await fetch(FORM_ENDPOINT, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, subject, message }),
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+          Accept: "application/json",
+        },
+        body,
       });
 
-      const data = await res.json();
+      const data = await res.json().catch(() => null);
 
-      if (!res.ok) {
-        throw new Error(data.error ?? "Something went wrong. Please try again.");
+      if (!res.ok || data?.success !== "true") {
+        throw new Error(
+          data?.error ?? "Something went wrong. Please try again.",
+        );
       }
 
       setStatus("success");

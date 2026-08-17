@@ -91,7 +91,7 @@ export default function GitHubProjects({ repos }: { repos: GitHubRepo[] }) {
         >
           github.com/{profile.githubUsername}
         </a>{" "}
-        · refreshed every 24 hours
+        · updated at build time
       </p>
     </div>
   );

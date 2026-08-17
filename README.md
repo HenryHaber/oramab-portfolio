@@ -2,11 +2,13 @@
 
 Dynamic web portfolio for Oramabo Emmanuel. Built with **Next.js (App Router) + TypeScript + Tailwind CSS v4** and rendered in a resume/document layout that mirrors the CV (source of truth: `cv_docx_generator.py`).
 
+Hosted on **GitHub Pages** via a static export + GitHub Actions.
+
 ## Features
 
 - **CV as source of truth** — all profile content (summary, skills, experience, featured projects, education) lives in `data/profile.ts`.
-- **Live GitHub projects** — fetches public repos from the GitHub API with 24h ISR revalidation. Forks, assessment repos, and boilerplate starters are filtered out.
-- **Contact pipeline** — contact form posts to `app/api/contact/route.ts`, which sends the message via Nodemailer + SMTP to the inbox in `.env.local`.
+- **Live GitHub projects** — fetches public repos from the GitHub API during the static build, filtered to own non-assessment repos.
+- **Contact pipeline** — the contact form posts to [FormSubmit](https://formsubmit.co), which forwards messages to the inbox in `data/profile.ts`. No server required.
 
 ## Getting started
 
@@ -17,29 +19,32 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000).
 
+## Build & preview the static export
+
+```bash
+npm run build
+npx serve out
+```
+
+The site is exported to `out/` (see `next.config.ts` for `output: "export"`, `basePath`/`assetPrefix` for the GitHub Pages subpath `/oramab-portfolio/`).
+
 ## Contact form setup
 
-Copy `.env.example` to `.env.local` and fill in the SMTP values:
+The form posts to `https://formsubmit.co/ajax/<email>`. Set the recipient in `.env.local`:
 
-| Variable      | Purpose                                        |
-| ------------- | ---------------------------------------------- |
-| `SMTP_HOST`   | SMTP server (e.g. `smtp.gmail.com`)            |
-| `SMTP_PORT`   | SMTP port (e.g. `587`, or `465` for SSL)       |
-| `SMTP_USER`   | SMTP account / sender                          |
-| `SMTP_PASS`   | SMTP password or app password                  |
-| `SMTP_FROM`   | From address used in sent emails               |
-| `CONTACT_TO`  | Inbox that receives contact messages           |
+| Variable                     | Purpose                                   |
+| ---------------------------- | ----------------------------------------- |
+| `NEXT_PUBLIC_CONTACT_EMAIL`  | Email that receives contact messages      |
+| `NEXT_PUBLIC_FORM_ENDPOINT`  | (Optional) Override the FormSubmit endpoint |
 
-> For Gmail, generate an [App Password](https://myaccount.google.com/apppasswords) (requires 2FA) and use it as `SMTP_PASS`.
+> On the first message you submit, FormSubmit emails you a confirmation link — click it once to activate delivery.
 
 ## GitHub data
 
-The portfolio fetches repos from the public GitHub API (`github.com/HenryHaber`). Filtering and the exclusion list are in `lib/github.ts`; the cache revalidates every 24 hours.
+The portfolio fetches public repos from `github.com/HenryHaber` at build time. Filtering and the exclusion list are in `lib/github.ts`.
 
-## Deploy to Vercel
+## Deploy to GitHub Pages
 
-```bash
-npx vercel
-```
+Push to `main` — the workflow at `.github/workflows/deploy.yml` builds the static export and deploys it with `actions/deploy-pages`. Enable Pages in **repo Settings → Pages → Source: GitHub Actions** (already configured for this repo).
 
-Add the `SMTP_*` / `CONTACT_TO` environment variables in the Vercel project settings.
+Site URL: `https://henryhaber.github.io/oramab-portfolio/`
