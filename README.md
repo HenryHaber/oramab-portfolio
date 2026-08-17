@@ -26,7 +26,7 @@ npm run build
 npx serve out
 ```
 
-The site is exported to `out/` (see `next.config.ts` for `output: "export"`, `basePath`/`assetPrefix` for the GitHub Pages subpath `/oramab-portfolio/`).
+The site is exported to `out/` (see `next.config.ts` for `output: "export"`, `basePath`/`assetPrefix` for the GitHub Pages subpath `/oramabo-portfolio/`).
 
 ## Contact form setup
 
@@ -47,4 +47,4 @@ The portfolio fetches public repos from `github.com/HenryHaber` at build time. F
 
 Push to `main` — the workflow at `.github/workflows/deploy.yml` builds the static export and deploys it with `actions/deploy-pages`. Enable Pages in **repo Settings → Pages → Source: GitHub Actions** (already configured for this repo).
 
-Site URL: `https://henryhaber.github.io/oramab-portfolio/`
+Site URL: `https://henryhaber.github.io/oramabo-portfolio/`
