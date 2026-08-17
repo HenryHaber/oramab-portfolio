@@ -58,5 +58,10 @@ export async function getOwnRepos(): Promise<GitHubRepo[]> {
   }
 
   const repos: GitHubApiRepo[] = await res.json();
-  return repos.filter((repo) => !isExcluded(repo));
+  return repos
+    .filter((repo) => !isExcluded(repo))
+    .sort(
+      (a, b) =>
+        new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime(),
+    );
 }

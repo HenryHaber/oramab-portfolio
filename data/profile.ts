@@ -1,4 +1,32 @@
-export const profile = {
+import type { CompanyKey } from "@/data/companies";
+
+export interface ExperienceItem {
+  companyKey: CompanyKey;
+  location: string;
+  title: string;
+  dates: string;
+  bullets: string[];
+}
+
+export interface Profile {
+  name: string;
+  title: string;
+  location: string;
+  phone: string;
+  email: string;
+  links: {
+    github: { label: string; url: string };
+    linkedin: { label: string; url: string };
+    portfolio: { label: string; url: string };
+  };
+  githubUsername: string;
+  summary: string;
+  skills: { category: string; detail: string }[];
+  experience: ExperienceItem[];
+  education: { degree: string; school: string; dates?: string }[];
+}
+
+export const profile: Profile = {
   name: "Emmanuel Oramabo",
   title:
     "High-Impact Engineering Leader, Technical Project Manager & Software Engineer",
@@ -61,7 +89,7 @@ export const profile = {
   ],
   experience: [
     {
-      company: "CLOUDFRO (cloudfro.online)",
+      companyKey: "cloudfro",
       location: "Lagos, Nigeria (Remote)",
       title: "Co-Founder, Chief Technology Officer (CTO) & Technical Project Manager",
       dates: "October 2025 – Present",
@@ -74,7 +102,7 @@ export const profile = {
       ],
     },
     {
-      company: "NERDBUG LIMITED",
+      companyKey: "nerdbug",
       location: "Lagos, Nigeria",
       title: "Tech Lead & Project Manager",
       dates: "July 2025 – October 2025",
@@ -87,7 +115,7 @@ export const profile = {
       ],
     },
     {
-      company: "CAPIVAS AFRICA LTD",
+      companyKey: "capivas",
       location: "Lagos, Nigeria",
       title: "Full Stack Developer & Technical Integrations Lead",
       dates: "May 2025 – July 2025",
@@ -99,7 +127,7 @@ export const profile = {
       ],
     },
     {
-      company: "GTEXT HOLDINGS",
+      companyKey: "gtext",
       location: "Lagos, Nigeria",
       title: "Engineering Manager & Project Delivery Lead",
       dates: "August 2022 – March 2025",
@@ -111,7 +139,7 @@ export const profile = {
       ],
     },
     {
-      company: "GTEXT HOLDINGS",
+      companyKey: "gtext",
       location: "Lagos, Nigeria",
       title: "Senior Software Engineer",
       dates: "March 2020 – July 2022",
@@ -122,7 +150,7 @@ export const profile = {
       ],
     },
     {
-      company: "SHOWGEARONLINE LTD",
+      companyKey: "showgear",
       location: "Lagos, Nigeria",
       title: "Fullstack Developer & Web Project Lead",
       dates: "March 2016 – February 2020",
@@ -131,53 +159,6 @@ export const profile = {
         "UI/UX & Accessibility Implementation: Worked with UI/UX designers to deliver accessible interfaces adhering to WCAG standards.",
         "Third-Party API & CMS Integrations: Integrated custom CMS systems (Laravel, WordPress, Webflow) and third-party APIs to optimize administrative workflows.",
       ],
-    },
-  ],
-  featuredProjects: [
-    {
-      title: "VisaGuard Africa (visaguardafrica.com)",
-      description:
-        "End-to-end technical execution and project management of an automated immigration technology SaaS for Nigerian travelers, delivering document verification workflows and custom payment transaction backends.",
-    },
-    {
-      title: "hibisXpert (Legal AI Assistant)",
-      description:
-        "Direct leadership of an NLP legal intelligence engine project designed to parse legal codes and draft documents for French-speaking African jurisdictions.",
-    },
-    {
-      title: "Firmly (Cross-Platform Ecosystem)",
-      description:
-        "Directed full lifecycle management of a cross-platform mobile (iOS & Android) and web application utilizing NestJS, MERN stack, React Native, and Next.js.",
-    },
-    {
-      title: "Etuition (Educational Platform)",
-      description:
-        "Managed cross-functional delivery for a learning platform, overseeing backend architecture in NestJS and administrative dashboards in Next.js/React Native.",
-    },
-    {
-      title: "Bitselah (Fintech/Exchange Platform)",
-      description:
-        "Project oversight and architectural planning for a high-frequency trading interface using React, .NET, and Flutter.",
-    },
-    {
-      title: "Gtext and Associates (Real Estate Web & Mobile App)",
-      description:
-        "Managed the contract delivery of a global real estate web/mobile platform with a custom real-time commission payout engine built on React, Node.js, and AWS.",
-    },
-    {
-      title: "Stephen Akintayo Foundation Digital Platform",
-      description:
-        "End-to-end project execution for a global grant distribution and relief tracking web platform built with React and Node.js.",
-    },
-    {
-      title: "E-Commerce Music Store & Mobile App",
-      description:
-        "Oversee UI/UX project workflows, database inventory setup, and multi-platform deployment on JAMstack (WordPress, Next.js, React Native).",
-    },
-    {
-      title: "Showgear Website / MakeMusicLagos / SSRT Websites",
-      description:
-        "Project management and overhaul of corporate websites utilizing Laravel and WordPress, improving site load speeds and backend management.",
     },
   ],
   education: [
@@ -189,7 +170,6 @@ export const profile = {
     {
       degree: "B.Tech in Computer Engineering Technology",
       school: "Yaba College of Technology",
-      dates: undefined,
     },
   ],
-} as const;
+};

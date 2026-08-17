@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Header from "@/components/Header";
 import SectionHeading from "@/components/SectionHeading";
 import Skills from "@/components/Skills";
@@ -35,6 +36,14 @@ export default async function Home() {
 
         <SectionHeading>Featured Projects</SectionHeading>
         <FeaturedProjects />
+        <p className="mt-3 text-[11px]">
+          <Link
+            href="/projects"
+            className="font-semibold text-primary hover:underline"
+          >
+            View all projects →
+          </Link>
+        </p>
 
         <SectionHeading>Professional Experience</SectionHeading>
         <Experience />

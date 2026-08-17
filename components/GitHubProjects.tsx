@@ -1,3 +1,6 @@
+"use client";
+
+import { useMemo, useState } from "react";
 import type { GitHubRepo } from "@/lib/github";
 import { profile } from "@/data/profile";
 
@@ -17,6 +20,14 @@ const LANGUAGE_COLORS: Record<string, string> = {
   Kotlin: "#A97BFF",
   Swift: "#F05138",
 };
+
+type SortKey = "recent" | "stars" | "name";
+
+const SORT_OPTIONS: { key: SortKey; label: string }[] = [
+  { key: "recent", label: "Recently updated" },
+  { key: "stars", label: "Most stars" },
+  { key: "name", label: "A–Z" },
+];
 
 function formatDate(value: string): string {
   return new Date(value).toLocaleDateString("en-US", {
@@ -43,10 +54,60 @@ function LanguageDot({ language }: { language: string | null }) {
 }
 
 export default function GitHubProjects({ repos }: { repos: GitHubRepo[] }) {
+  const [sort, setSort] = useState<SortKey>("recent");
+
+  const sortedRepos = useMemo(() => {
+    const list = [...repos];
+    switch (sort) {
+      case "stars":
+        return list.sort(
+          (a, b) =>
+            b.stargazers_count - a.stargazers_count ||
+            a.name.localeCompare(b.name),
+        );
+      case "name":
+        return list.sort((a, b) => a.name.localeCompare(b.name));
+      case "recent":
+      default:
+        return list.sort(
+          (a, b) =>
+            new Date(b.updated_at).getTime() -
+              new Date(a.updated_at).getTime() ||
+            a.name.localeCompare(b.name),
+        );
+    }
+  }, [repos, sort]);
+
   return (
     <div>
-      <div className="mb-3 grid grid-cols-1 gap-3 sm:grid-cols-2">
-        {repos.map((repo) => (
+      <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
+        <span className="text-[10.5px] font-semibold uppercase tracking-wide text-muted">
+          Sort by
+        </span>
+        <div
+          className="inline-flex flex-wrap rounded-sm border border-secondary/25 bg-white p-0.5"
+          role="group"
+          aria-label="Sort repositories"
+        >
+          {SORT_OPTIONS.map((option) => (
+            <button
+              key={option.key}
+              type="button"
+              onClick={() => setSort(option.key)}
+              className={`rounded-sm px-2.5 py-1 text-[10.5px] font-semibold transition-colors ${
+                sort === option.key
+                  ? "bg-primary text-white"
+                  : "text-muted hover:text-primary"
+              }`}
+              aria-pressed={sort === option.key}
+            >
+              {option.label}
+            </button>
+          ))}
+        </div>
+      </div>
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+        {sortedRepos.map((repo) => (
           <a
             key={repo.id}
             href={repo.html_url}
@@ -76,7 +137,7 @@ export default function GitHubProjects({ repos }: { repos: GitHubRepo[] }) {
           </a>
         ))}
       </div>
-      {repos.length === 0 && (
+      {sortedRepos.length === 0 && (
         <p className="text-[11.5px] text-muted">
           No public repositories to display right now.
         </p>
