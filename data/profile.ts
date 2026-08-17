@@ -16,7 +16,7 @@ export const profile = {
     },
     portfolio: {
       label: "Portfolio",
-      url: "https://oramabo-emmanuel.vercel.app",
+      url: "https://oramabo-portfolio.vercel.app/",
     },
   },
   githubUsername: "HenryHaber",
