@@ -17,7 +17,7 @@ npm install
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000).
+Open [http://localhost:3000](http://localhost:3000). The app runs at the root locally; `NEXT_PUBLIC_BASE_PATH=/oramabo-portfolio` is injected only by the CI build so GitHub Pages serves it under the repo subpath.
 
 ## Build & preview the static export
 
