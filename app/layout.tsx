@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   keywords: [
     "Emmanuel Oramabo",
     "Technical Project Manager",
-    "Full Stack Developer",
+    "Software Engineer",
     "Engineering Leader",
     "Lagos",
     "Nigeria",

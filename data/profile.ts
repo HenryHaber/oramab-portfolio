@@ -1,7 +1,7 @@
 export const profile = {
   name: "Emmanuel Oramabo",
   title:
-    "High-Impact Engineering Leader, Technical Project Manager & Full Stack Developer",
+    "High-Impact Engineering Leader, Technical Project Manager & Software Engineer",
   location: "Lagos, Nigeria",
   phone: "08104543064",
   email: "oramabo.emmanuel@gmail.com",
